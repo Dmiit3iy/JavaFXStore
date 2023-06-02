@@ -1,5 +1,6 @@
 package com.dmiit3iy.javafxStore;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.SQLException;
@@ -11,10 +12,14 @@ import com.dmiit3iy.javafxStore.domain.ProductCategory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class ProductController {
         private ObservableList<Product>  observableList = FXCollections.observableArrayList();
@@ -58,8 +63,24 @@ public class ProductController {
                 productListPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, BigDecimal>("price"));
                 productTable.setItems(observableList);
 
-
+                productListExitButton.setOnAction(x->{
+                        try {
+                                openPage("Authorization.fxml");
+                        } catch (IOException e) {
+                                throw new RuntimeException(e);
+                        }
+                });
 
         }
-
+        public  void openPage(String str) throws IOException {
+                productListExitButton.getScene().getWindow().hide();
+                FXMLLoader fxmlLoader=new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource(str));
+                fxmlLoader.load();
+                Parent root=fxmlLoader.getRoot();
+                Stage stage=new Stage();
+                stage.setResizable(false);
+                stage.setScene(new Scene(root));
+                stage.show();
+        }
 }
