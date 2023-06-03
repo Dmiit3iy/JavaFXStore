@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="339.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dmiit3iy.javafxStore.ProductController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dmiit3iy.javafxStore.ProductController">
    <children>
       <TableView fx:id="productTable" layoutX="14.0" layoutY="41.0" prefHeight="200.0" prefWidth="350.0">
         <columns>
@@ -18,6 +18,20 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Label>
-      <Button fx:id="productListExitButton" layoutX="273.0" layoutY="253.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Exit" />
+      <Button fx:id="productListExitButton" layoutX="27.0" layoutY="536.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Exit" />
+      <TableView fx:id="productListCart" layoutX="17.0" layoutY="292.0" prefHeight="200.0" prefWidth="350.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="ID" />
+          <TableColumn prefWidth="86.0" text="NAME" />
+            <TableColumn prefWidth="93.0" text="CATEGORY" />
+            <TableColumn prefWidth="95.0" text="PRICE" />
+        </columns>
+      </TableView>
+      <Label layoutX="17.0" layoutY="261.0" text="CART">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="148.0" layoutY="250.0" mnemonicParsing="false" text="ADD to CART" />
    </children>
 </AnchorPane>
