@@ -52,7 +52,7 @@ public class AuthorizationController {
                     authorizationAlertLabel.setText("Ошибка авторизации пользователя!!");
 
                 } else if (DataBaseHandler.userIsExist(login, password).equals("ADMIN")) {
-                    openPage("addProduct.fxml");
+                    openPage1("addProduct.fxml");
 
                 } else if (DataBaseHandler.userIsExist(login, password).equals("USER")) {
 
@@ -93,4 +93,16 @@ public class AuthorizationController {
         stage.show();
     }
 
+    public void openPage1(String str) throws IOException, SQLException {
+        mainPageAuthorizationButton.getScene().getWindow().hide();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(str));
+        fxmlLoader.load();
+        Parent root = fxmlLoader.getRoot();
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.setScene(new Scene(root));
+
+        stage.show();
+    }
 }
