@@ -3,6 +3,7 @@ package com.dmiit3iy.javafxStore;
 import com.dmiit3iy.javafxStore.domain.Product;
 import com.dmiit3iy.javafxStore.domain.ProductCategory;
 import com.dmiit3iy.javafxStore.domain.User;
+import javafx.collections.ObservableList;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -25,6 +26,17 @@ public class DataBaseHandler {
         preparedStatement.setString(3, user.getName());
         preparedStatement.setString(4, user.getRole());
         preparedStatement.executeUpdate();
+    }
+
+    public static User getUser(String name) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from users where users.username=?");
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        return new User(resultSet.getInt(1),
+                resultSet.getString(2), resultSet.getString(3),
+                resultSet.getString(4), resultSet.getString(5));
     }
 
     public static boolean isUniqueUserName(String name) throws SQLException {
@@ -98,6 +110,30 @@ public class DataBaseHandler {
             productArrayList.add(product);
         }
         return productArrayList;
+    }
+
+    public static long addCartList(User user) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("insert into cart (id_user) values(?)", Statement.RETURN_GENERATED_KEYS);
+        preparedStatement.setInt(1, user.getId());
+        preparedStatement.executeUpdate();
+        ResultSet genKey = preparedStatement.getGeneratedKeys();
+        if (genKey.next()) {
+            return genKey.getLong(1);
+        } else return 0;
+    }
+
+    public static void addCartProductList(Long idCart, ObservableList<Product> productArrayList) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("insert into cartproductlist (id_cart, id_product) values(?,?)");
+        for (int i=0;i< productArrayList.size();i++) {
+            preparedStatement.setLong(1,idCart);
+            preparedStatement.setInt(2,productArrayList.get(i).getId());
+            preparedStatement.executeUpdate();
+        }
+
     }
 
 }

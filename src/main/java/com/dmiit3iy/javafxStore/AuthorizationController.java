@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
+import com.dmiit3iy.javafxStore.domain.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -54,6 +55,7 @@ public class AuthorizationController {
                     openPage("addProduct.fxml");
 
                 } else if (DataBaseHandler.userIsExist(login, password).equals("USER")) {
+
                     openPage("viewproduct.fxml");
 
                 }
@@ -61,10 +63,13 @@ public class AuthorizationController {
                 throw new RuntimeException(e);
             }
         });
+
         mainPageRegistrationButton.setOnAction(x -> {
             try {
                 openPage("Registration.fxml");
             } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -72,7 +77,7 @@ public class AuthorizationController {
     }
 
 
-    public void openPage(String str) throws IOException {
+    public void openPage(String str) throws IOException, SQLException {
         mainPageAuthorizationButton.getScene().getWindow().hide();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource(str));
@@ -81,6 +86,10 @@ public class AuthorizationController {
         Stage stage = new Stage();
         stage.setResizable(false);
         stage.setScene(new Scene(root));
+        ProductController productController = fxmlLoader.getController();
+
+        User user =DataBaseHandler.getUser(mainPageLoginInput.getText());
+        productController.initUser(user);
         stage.show();
     }
 
