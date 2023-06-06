@@ -3,7 +3,6 @@ package com.dmiit3iy.javafxStore;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -25,7 +24,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class ProductController {
-   private User user;
+    @FXML
+    public Button productListHistoryButton;
+    private User user;
+
 
     @FXML
     private Button buyButton;
@@ -68,15 +70,25 @@ public class ProductController {
     private TableColumn<Product, BigDecimal> productListPriceColumn;
 
     public void initUser(User user) {
-        this.user=user;
+        this.user = user;
     }
+
     @FXML
     void initialize() throws SQLException {
 
 
         ArrayList<Product> productArrayList = DataBaseHandler.getAllProducts();
         ObservableList<Product> cartList = FXCollections.observableArrayList();
-        observableList.addAll(productArrayList);
+        ArrayList<Integer> idList = DataBaseHandler.countIDProduct();
+        for (int i = 0; i < idList.size(); i++) {
+
+            for (Product x : productArrayList
+            ) {
+                if (x.getId() == idList.get(i)) {
+                    observableList.add(x);
+                }
+            }
+        }
 
 
         productListIDColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("id"));
@@ -97,8 +109,8 @@ public class ProductController {
                 cartList.add(product);
                 productListCart.setItems(cartList);
                 System.out.println(totalPr.add(product.getPrice()).toString());
-                totalPr =totalPr.add(product.getPrice());
-               labelTotalPrice.setText(totalPr.toString());
+                totalPr = totalPr.add(product.getPrice());
+                labelTotalPrice.setText(totalPr.toString());
 
             } else {
                 productListAlertLabel.setWrapText(true);
@@ -114,14 +126,14 @@ public class ProductController {
             }
         });
 
-        buyButton.setOnAction(x->{
+        buyButton.setOnAction(x -> {
             try {
                 System.out.println(user);
-              long idCart =  DataBaseHandler.addCartList(user);
-             ObservableList<Product> productObservableList =productListCart.getItems();
-             DataBaseHandler.addCartProductList(idCart, productObservableList);
+                long idCart = DataBaseHandler.addCartList(user);
+                ObservableList<Product> productObservableList = productListCart.getItems();
+                DataBaseHandler.addCartProductList(idCart, productObservableList);
                 productListCart.getItems().clear();
-                totalPr=new BigDecimal(0);
+                totalPr = new BigDecimal(0);
                 labelTotalPrice.setText("0");
                 productListAlertLabel.setText("Покупки оплачены");
             } catch (SQLException e) {
@@ -130,6 +142,13 @@ public class ProductController {
 
         });
 
+        productListHistoryButton.setOnAction(x -> {
+            try {
+                openPage1("cartStories.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
     }
@@ -143,6 +162,26 @@ public class ProductController {
         Stage stage = new Stage();
         stage.setResizable(false);
         stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    public void openPage1(String str) throws IOException {
+
+        productListHistoryButton.getScene().getWindow().hide();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(str));
+
+        fxmlLoader.load();
+
+        Parent root = fxmlLoader.getRoot();
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.setScene(new Scene(root));
+        CartStoriesController cartStoriesController = fxmlLoader.getController();
+        cartStoriesController.initUsertoCart(user);
+        stage.show();
+
+
         stage.show();
     }
 

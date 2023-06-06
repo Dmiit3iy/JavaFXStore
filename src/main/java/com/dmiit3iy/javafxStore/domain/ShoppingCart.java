@@ -1,17 +1,20 @@
 package com.dmiit3iy.javafxStore.domain;
 
-import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ShoppingCart {
     private User user;
-    private HashMap<Product, Integer> cart = new HashMap<>();
-    private CartStatus cartStatus;
 
-    public ShoppingCart(User user, HashMap<Product, Integer> cart) {
+
+    private ArrayList<Product> productArrayList = new ArrayList<>();
+    private ArrayList<LocalDateTime> localDateTime = new ArrayList<>();
+
+    public ShoppingCart(User user, ArrayList<Product> productArrayList, ArrayList<LocalDateTime> localDateTime) {
         this.user = user;
-        this.cart = cart;
-        cartStatus = CartStatus.InProgress;
+        this.productArrayList = productArrayList;
+        this.localDateTime = localDateTime;
     }
 
     public User getUser() {
@@ -22,40 +25,40 @@ public class ShoppingCart {
         this.user = user;
     }
 
-    public HashMap<Product, Integer> getCart() {
-        return cart;
+    public ArrayList<Product> getProductArrayList() {
+        return productArrayList;
     }
 
-    public void setCart(HashMap<Product, Integer> cart) {
-        this.cart = cart;
+    public void setProductArrayList(ArrayList<Product> productArrayList) {
+        this.productArrayList = productArrayList;
     }
 
-    public CartStatus getCartStatus() {
-        return cartStatus;
+    public ArrayList<LocalDateTime> getLocalDateTime() {
+        return localDateTime;
     }
 
-    public void setCartStatus(CartStatus cartStatus) {
-        this.cartStatus = cartStatus;
+    public void setLocalDateTime(ArrayList<LocalDateTime> localDateTime) {
+        this.localDateTime = localDateTime;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ShoppingCart that)) return false;
-        return Objects.equals(user, that.user) && Objects.equals(cart, that.cart) && cartStatus == that.cartStatus;
+        return Objects.equals(user, that.user) && Objects.equals(productArrayList, that.productArrayList) && Objects.equals(localDateTime, that.localDateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, cart, cartStatus);
+        return Objects.hash(user, productArrayList, localDateTime);
     }
 
     @Override
     public String toString() {
         return "ShoppingCart{" +
                 "user=" + user +
-                ", cart=" + cart +
-                ", cartStatus=" + cartStatus +
+                ", productArrayList=" + productArrayList +
+                ", localDateTime=" + localDateTime +
                 '}';
     }
 }

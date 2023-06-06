@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 
 public class AddProductController {
     public Button adminPanelExitButton;
+    public Button adminPanelEditProductButton;
     private ObservableList<ProductCategory> observableList = FXCollections.observableArrayList();
 
     @FXML
@@ -69,7 +70,14 @@ public class AddProductController {
         });
         adminPanelExitButton.setOnAction(x->{
             try {
-                openPage("Registration.fxml");
+                openPage("Authorization.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        adminPanelEditProductButton.setOnAction(x->{
+            try {
+                openPage("editProduct.fxml");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

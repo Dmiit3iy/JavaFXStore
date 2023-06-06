@@ -66,7 +66,7 @@ public class AuthorizationController {
 
         mainPageRegistrationButton.setOnAction(x -> {
             try {
-                openPage("Registration.fxml");
+                openPage1("Registration.fxml");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (SQLException e) {

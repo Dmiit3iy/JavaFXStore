@@ -6,7 +6,8 @@ module com.example.javafx20230528 {
     requires javafx.graphics;
     opens com.dmiit3iy.javafxStore.domain;
 
-    opens com.dmiit3iy.javafxStore to javafx.fxml;
     exports com.dmiit3iy.javafxStore;
+    opens com.dmiit3iy.javafxStore;
+    exports com.dmiit3iy.javafxStore.domain;
 }
 
