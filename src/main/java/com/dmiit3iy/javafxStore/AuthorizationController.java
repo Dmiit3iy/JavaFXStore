@@ -84,6 +84,8 @@ public class AuthorizationController {
         fxmlLoader.load();
         Parent root = fxmlLoader.getRoot();
         Stage stage = new Stage();
+        stage.setWidth(400);
+        stage.setHeight(650);
         stage.setResizable(false);
         stage.setScene(new Scene(root));
         ProductController productController = fxmlLoader.getController();

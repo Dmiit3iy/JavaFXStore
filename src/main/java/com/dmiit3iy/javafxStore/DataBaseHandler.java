@@ -52,7 +52,7 @@ public class DataBaseHandler {
     }
 
     /**
-     * Проверка имени продукта на уникальность
+     * Checking the product name for uniqueness
      *
      * @param name
      * @return
@@ -70,7 +70,7 @@ public class DataBaseHandler {
     }
 
     /**
-     * Метод добавления нового продукта
+     * Method for adding a new product
      *
      * @param product
      * @throws SQLException
@@ -85,6 +85,14 @@ public class DataBaseHandler {
         preparedStatement.executeUpdate();
     }
 
+    /**
+     * Checking if a user exists
+     *
+     * @param name
+     * @param password
+     * @return
+     * @throws SQLException
+     */
     public static String userIsExist(String name, String password) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement =
@@ -98,6 +106,12 @@ public class DataBaseHandler {
         return null;
     }
 
+    /**
+     * Method for getting a list of all products
+     *
+     * @return
+     * @throws SQLException
+     */
     public static ArrayList<Product> getAllProducts() throws SQLException {
         ArrayList<Product> productArrayList = new ArrayList<>();
         Connection connection = getConnection();
@@ -112,6 +126,13 @@ public class DataBaseHandler {
         return productArrayList;
     }
 
+    /**
+     * Shopping Cart Add Method
+     *
+     * @param user
+     * @return
+     * @throws SQLException
+     */
     public static long addCartList(User user) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement =
@@ -126,6 +147,13 @@ public class DataBaseHandler {
         } else return 0;
     }
 
+    /**
+     * Method for adding shopping list to cart
+     *
+     * @param idCart
+     * @param productArrayList
+     * @throws SQLException
+     */
     public static void addCartProductList(Long idCart, ObservableList<Product> productArrayList) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement =
@@ -138,6 +166,12 @@ public class DataBaseHandler {
 
     }
 
+    /**
+     * Method to update product details
+     *
+     * @param product
+     * @throws SQLException
+     */
     public static void updateProduct(Product product) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement =
@@ -149,6 +183,13 @@ public class DataBaseHandler {
         preparedStatement.executeUpdate();
     }
 
+    /**
+     * Method for getting a product by index
+     *
+     * @param i
+     * @return
+     * @throws SQLException
+     */
     public static Product getProductById(int i) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement =
@@ -156,34 +197,23 @@ public class DataBaseHandler {
                         ("select * from product where product.id =?");
         preparedStatement.setInt(1, i);
         ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()){
-        Product product =new Product(resultSet.getInt(1), resultSet.getString(2),
-                ProductCategory.valueOf(resultSet.getString(3)), new BigDecimal(resultSet.getString(4)));
+        while (resultSet.next()) {
+            Product product = new Product(resultSet.getInt(1), resultSet.getString(2),
+                    ProductCategory.valueOf(resultSet.getString(3)), new BigDecimal(resultSet.getString(4)));
             System.out.println(product);
-        return product;}
+            return product;
+        }
         return null;
     }
 
-//    public static ShoppingCart getAllCarts(User user) throws SQLException {
-//        Connection connection = getConnection();
-//        PreparedStatement preparedStatement =
-//                connection.prepareStatement
-//                        ("select date, id_product from cart  left join cartproductlist" +
-//                                " on cart.idcart=cartproductlist.id_cart where cart.id_user = ?");
-//        preparedStatement.setInt(1, user.getId());
-//        ResultSet resultSet = preparedStatement.executeQuery();
-//        ArrayList<Product> products = new ArrayList<>();
-//        ArrayList<LocalDateTime> localDateTimes = new ArrayList<>();
-//        while (resultSet.next()) {
-//            products.add(getProductById(resultSet.getInt(2)));
-//            localDateTimes.add(LocalDateTime.parse(resultSet.getString(1)));
-//
-//
-//        }
-//        return new ShoppingCart(user, products, localDateTimes);
-//    }
 
-
+    /**
+     * Method for getting all purchases with date of purchase
+     *
+     * @param user
+     * @return
+     * @throws SQLException
+     */
     public static ArrayList<ShoppingCarts> getAllCarts(User user) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement =
@@ -199,22 +229,27 @@ public class DataBaseHandler {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime dateTime = LocalDateTime.parse(resultSet.getString(1), formatter);
             ShoppingCarts shoppingCarts =
-                    new ShoppingCarts( dateTime,
-                            product.getId(),product.getName(), product.getCategory(),product.getPrice());
+                    new ShoppingCarts(dateTime,
+                            product.getId(), product.getName(), product.getCategory(), product.getPrice());
             shoppingCartsArrayList.add(shoppingCarts);
 
         }
         return shoppingCartsArrayList;
     }
 
+    /**
+     *    Method for obtaining the number of purchased products (by index)
+     * @return
+     * @throws SQLException
+     */
     public static ArrayList<Integer> countIDProduct() throws SQLException {
-        ArrayList<Integer>integerArrayList = new ArrayList<>();
+        ArrayList<Integer> integerArrayList = new ArrayList<>();
         Connection connection = getConnection();
         PreparedStatement preparedStatement =
                 connection.prepareStatement
                         ("SELECT  id_product, count(id_product) as countP FROM cartproductlist group by id_product ORDER BY countP DESC");
         ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             integerArrayList.add(resultSet.getInt(1));
         }
         return integerArrayList;

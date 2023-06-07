@@ -175,6 +175,9 @@ public class ProductController {
 
         Parent root = fxmlLoader.getRoot();
         Stage stage = new Stage();
+        stage.setTitle("purchase history");
+        stage.setWidth(500);
+        stage.setHeight(350);
         stage.setResizable(false);
         stage.setScene(new Scene(root));
         CartStoriesController cartStoriesController = fxmlLoader.getController();

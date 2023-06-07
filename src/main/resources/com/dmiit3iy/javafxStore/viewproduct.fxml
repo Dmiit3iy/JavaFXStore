@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dmiit3iy.javafxStore.ProductController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dmiit3iy.javafxStore.ProductController">
    <children>
       <TableView fx:id="productTable" layoutX="14.0" layoutY="41.0" prefHeight="200.0" prefWidth="350.0">
         <columns>
@@ -33,10 +33,13 @@
          </font>
       </Label>
       <Button fx:id="productListAddButton" layoutX="148.0" layoutY="250.0" mnemonicParsing="false" text="ADD to CART" />
-      <Label fx:id="productListAlertLabel" layoutX="143.0" layoutY="7.0" prefHeight="30.0" prefWidth="220.0" />
+      <Label fx:id="productListAlertLabel" layoutX="143.0" layoutY="7.0" prefHeight="30.0" prefWidth="220.0" wrapText="true">
+         <font>
+            <Font size="8.0" />
+         </font></Label>
       <Label layoutX="206.0" layoutY="503.0" text="Total price:" />
       <Label fx:id="labelTotalPrice" layoutX="281.0" layoutY="503.0" prefHeight="18.0" prefWidth="81.0" />
       <Button fx:id="buyButton" layoutX="199.0" layoutY="539.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" text="Buy" />
-      <Button fx:id="productListHistoryButton" layoutX="225.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="138.0" text="Purchase history" />
+      <Button fx:id="productListHistoryButton" layoutX="201.0" layoutY="573.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="138.0" text="Purchase history" />
    </children>
 </AnchorPane>

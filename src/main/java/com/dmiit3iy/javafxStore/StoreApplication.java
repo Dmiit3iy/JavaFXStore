@@ -13,6 +13,8 @@ public class StoreApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(StoreApplication.class.getResource("Authorization.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Store");
+        stage.setWidth(220);
+        stage.setHeight(370);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
